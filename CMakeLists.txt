@@ -23,6 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FontGenerator-2-0
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+
+        fontpreviewwidget.h fontpreviewwidget.cpp fontpreviewwidget.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FontGenerator-2-0 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -59,6 +61,8 @@ set_target_properties(FontGenerator-2-0 PROPERTIES
 )
 
 include(GNUInstallDirs)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 install(TARGETS FontGenerator-2-0
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
