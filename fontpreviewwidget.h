@@ -27,12 +27,15 @@ public:
 private:
     Ui::FontPreviewWidget *ui;
     int x,y;
+    QFont font;
+    char c;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
 
 public slots:
     void onPositionUpdate(int x, int y);
+    void onFontUpdate(QFont font, int x, int y, char c);
 
 };
 

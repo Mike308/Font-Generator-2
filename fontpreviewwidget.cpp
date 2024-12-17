@@ -23,20 +23,19 @@ void FontPreviewWidget::paintEvent(QPaintEvent *event) {
     QRect rect = event->rect();
     int ax, ay, aw, ah;
     rect.getRect(&ax, &ay, &aw, &ah);
-    // qDebug() << "Paint event" << x << "|" << y << "|" << rect.x() << "|" << ax << "|" << "|" << aw << "|" << ah;
     rect.setX(ax + x);
     rect.setY(ay + y);
-    QFont font;
-    font.setFamily("Arial");
-    font.setPixelSize(80);
+    qDebug() << "Preview rect x: " << rect.x() << " y: " << rect.y();
     QFontMetrics fontMetrics(font);
-
-    QImage image(40, 40, QImage::Format_Mono);
-    image.fill(0);
-    QPainter painter(this);
-    painter.setPen(Qt::black);
-    painter.setFont(font);
-    painter.drawText(rect,  "A");
+    QRect fontRect = fontMetrics.boundingRect(QString(this->c));
+    qDebug() << "X: " << fontRect.x() << " Y: " << fontRect.y();
+    if (font.pixelSize() > 0) {
+         font.setPixelSize(font.pixelSize() * 10);
+         QPainter painter(this);
+         painter.setPen(Qt::black);
+         painter.setFont(font);
+         painter.drawText(rect,  QString(this->c));
+    }
 
 }
 
@@ -44,5 +43,14 @@ void FontPreviewWidget::paintEvent(QPaintEvent *event) {
 void FontPreviewWidget::onPositionUpdate(int x, int y) {
     this->x = x;
     this->y = y;
+    update();
+}
+
+void FontPreviewWidget::onFontUpdate(QFont font, int x, int y, char c)
+{
+    this->font = font;
+    this->x = x;
+    this->y = y;
+    this->c = c;
     update();
 }

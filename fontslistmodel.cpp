@@ -1,0 +1,41 @@
+#include "fontslistmodel.h"
+#include <QDebug>
+
+FontsListModel::FontsListModel(QList<FontPixelMap> fonts, QObject *parent)
+    : QAbstractListModel(parent), fonts(fonts)
+{
+
+}
+
+int FontsListModel::rowCount(const QModelIndex &parent) const
+{
+    // For list models only the root node (an invalid parent) should return the list's size. For all
+    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
+    Q_UNUSED(parent);
+    return fonts.size();
+
+    // FIXME: Implement me!
+}
+
+QVariant FontsListModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+    if (role == Qt::DisplayRole && index.row() < fonts.size())
+        return QVariant::fromValue(fonts.at(index.row()).getCharacter());
+
+    return QVariant();
+}
+
+
+FontPixelMap FontsListModel::getData(int index) const
+{
+    return fonts.at(index);
+}
+
+void FontsListModel::insertRow(int row, FontPixelMap font)
+{
+    beginInsertRows(QModelIndex(), row, row);
+    fonts.insert(row, font);
+    endInsertRows();
+}
