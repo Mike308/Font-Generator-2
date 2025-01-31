@@ -25,7 +25,6 @@ void FontPreviewWidget::paintEvent(QPaintEvent *event) {
     rect.getRect(&ax, &ay, &aw, &ah);
     rect.setX(ax + x);
     rect.setY(ay + y);
-    qDebug() << "Preview rect x: " << rect.x() << " y: " << rect.y();
     QFontMetrics fontMetrics(font);
     QRect fontRect = fontMetrics.boundingRect(QString(this->c));
     qDebug() << "X: " << fontRect.x() << " Y: " << fontRect.y();

@@ -19,6 +19,8 @@ public:
     FontPixelMap getData(int index) const;
 
     void insertRow(int row, FontPixelMap font);
+    void updateRow(int row, FontPixelMap font);
+    QList<FontPixelMap> getAllData();
 
 private:
     QList<FontPixelMap> fonts;

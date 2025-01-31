@@ -5,6 +5,8 @@
 #include <font.h>
 #include <QList>
 #include <QDebug>
+#include <QStyledItemDelegate>
+
 
 class FontListModel : public QAbstractListModel
 {

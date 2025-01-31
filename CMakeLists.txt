@@ -29,6 +29,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         fontlistmodel.h fontlistmodel.cpp
         fontslistmodel.h fontslistmodel.cpp
         fontpixelmap.h fontpixelmap.cpp
+        utils.h utils.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FontGenerator-2-0 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

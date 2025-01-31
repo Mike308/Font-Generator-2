@@ -13,7 +13,7 @@
 #include <fontpixelmap.h>
 #include <string>
 #include <iostream>
-
+#include "utils.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -37,6 +37,19 @@ private slots:
 
     void on_upBtn_clicked();
 
+    void on_fontListView_entered(const QModelIndex &index);
+
+    void on_fontListView_activated(const QModelIndex &index);
+
+    void on_generateArrayBtn_clicked();
+
+
+    void on_updateSelectedChar_clicked();
+    void on_fontSizeSpinBox_valueChanged(int arg1);
+
+public slots:
+    void onFontListModelUpdate(QModelIndex topLeft, QModelIndex bottomRight);
+
 signals:
     void positionUpdate(int x, int y);
     void fontUpdate(QFont font, int x, int y, char c);
@@ -49,7 +62,10 @@ private:
     void displayFontParamters(QRect fontRect, QFontMetrics fontMetrics);
     FontPixelMap generateSpecificChar(QString c, int x, int y);
     void prepareArray(FontPixelMap font);
+    void prepareArray(QList<FontPixelMap> fonts);
     QVector <QVector <char>> preparePreviewArray(QBitmap fontBitmap);
     QStringList prepareFontTableValues(QBitmap fontBitmap);
+    void refreshUI(const QModelIndex &index);
+    void prepareLine(int r, QString pattern, FontPixelMap font);
 };
 #endif // MAINWINDOW_H

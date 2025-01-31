@@ -42,4 +42,12 @@ int FontPixelMap::getY() const
     return y;
 }
 
+int FontPixelMap::getAscent() const {
+    return ascent;
+}
+
+int FontPixelMap::getDescent() const {
+    return descent;
+}
+
 

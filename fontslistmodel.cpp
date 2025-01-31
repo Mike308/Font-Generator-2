@@ -21,6 +21,8 @@ QVariant FontsListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
+    if (role == Qt::DecorationRole)
+        return QPixmap::fromImage(fonts.at(index.row()).getFontBitmap().toImage().scaled(80, 80));
     if (role == Qt::DisplayRole && index.row() < fonts.size())
         return QVariant::fromValue(fonts.at(index.row()).getCharacter());
 
@@ -39,3 +41,21 @@ void FontsListModel::insertRow(int row, FontPixelMap font)
     fonts.insert(row, font);
     endInsertRows();
 }
+
+void FontsListModel::updateRow(int row, FontPixelMap font)
+{
+    qDebug() << "Row" << row;
+    if (row < 0 || row >= fonts.size()) {
+        qDebug() << "Invalid row index:" << row;
+        return;
+    }
+    fonts[row] = font;
+    emit dataChanged(index(row, 0), index(row, 0));
+}
+
+QList<FontPixelMap> FontsListModel::getAllData()
+{
+    return fonts;
+}
+
+

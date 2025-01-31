@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1136</width>
-    <height>516</height>
+    <height>564</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>20</y>
       <width>461</width>
-      <height>441</height>
+      <height>498</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -145,7 +145,7 @@
         <number>3</number>
        </property>
        <property name="maximum">
-        <number>24</number>
+        <number>200</number>
        </property>
       </widget>
      </item>
@@ -254,9 +254,30 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="isRescaleCheckBox">
+       <property name="text">
+        <string>Rescale to 8x8</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="updateSelectedChar">
+       <property name="text">
+        <string>Update selected char</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="generateBtn">
        <property name="text">
-        <string>Generate</string>
+        <string>Generate pattern</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="generateArrayBtn">
+       <property name="text">
+        <string>Generate array</string>
        </property>
       </widget>
      </item>
@@ -268,7 +289,7 @@
       <x>520</x>
       <y>20</y>
       <width>256</width>
-      <height>281</height>
+      <height>451</height>
      </rect>
     </property>
    </widget>
@@ -288,10 +309,10 @@
    <widget class="QPlainTextEdit" name="plainTextEdit">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>120</y>
-      <width>201</width>
-      <height>201</height>
+      <x>790</x>
+      <y>150</y>
+      <width>331</width>
+      <height>321</height>
      </rect>
     </property>
    </widget>
