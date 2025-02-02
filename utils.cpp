@@ -7,20 +7,11 @@ QString Utils::binStringToHex(QString bin)
     QString _bin = bin;
     QString hex;
 
-    // int lastOneIndex = _bin.lastIndexOf('1');
-    // if (lastOneIndex != -1) {
-    //     _bin = _bin.left(lastOneIndex + 1);
-    // } else {
-    //     return "0";
-    // }
-
-
 
     while ((_bin.length() % 4)) {
         _bin.prepend('0');
     }
 
-    qDebug () << "Bin to convert: " << _bin;
 
     for (int i = 0; i < _bin.length(); i+=4) {
         QString nibble = _bin.mid(i, 4);

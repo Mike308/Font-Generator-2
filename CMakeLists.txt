@@ -30,6 +30,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         fontslistmodel.h fontslistmodel.cpp
         fontpixelmap.h fontpixelmap.cpp
         utils.h utils.cpp
+        fontgenerator.h fontgenerator.cpp
+        ledmatrixfontgenerator.h ledmatrixfontgenerator.cpp
+        tftfontgenerator.h tftfontgenerator.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

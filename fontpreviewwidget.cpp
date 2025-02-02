@@ -10,7 +10,6 @@ FontPreviewWidget::FontPreviewWidget(QWidget *parent)
     pallete.setColor(QPalette::Window, Qt::white);
     this->setAutoFillBackground(true);
     this->setPalette(pallete);
-    // update();
 }
 
 FontPreviewWidget::~FontPreviewWidget()
@@ -27,7 +26,6 @@ void FontPreviewWidget::paintEvent(QPaintEvent *event) {
     rect.setY(ay + y);
     QFontMetrics fontMetrics(font);
     QRect fontRect = fontMetrics.boundingRect(QString(this->c));
-    qDebug() << "X: " << fontRect.x() << " Y: " << fontRect.y();
     if (font.pixelSize() > 0) {
          font.setPixelSize(font.pixelSize() * 10);
          QPainter painter(this);

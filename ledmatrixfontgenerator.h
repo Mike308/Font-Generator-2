@@ -11,9 +11,14 @@ public:
 
 
 
+
     // FontGenerator interface
 public:
     QString prepareCArray(FontPixelMap fontPixelMap) override;
+    QString prepareCArray(QList<FontPixelMap> fontPixealMaps) override;
+
+private:
+    void prepareCArrayContent(QStringList &lines, FontPixelMap fontPixelMap);
 };
 
 #endif // LEDMATRIXFONTGENERATOR_H

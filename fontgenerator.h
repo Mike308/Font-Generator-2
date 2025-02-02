@@ -11,13 +11,13 @@ class FontGenerator
 {
 public:
     FontGenerator();
-    virtual QString prepareCArray(FontPixelMap fontPixelMap);
-
+    virtual QString prepareCArray(FontPixelMap fontPixelMap) = 0;
+    virtual QString prepareCArray(QList<FontPixelMap> fontPixealMaps) = 0;
 
 protected:
-    FontPixelMap generateSpecificChar(QString c, int x, int y, QSize bitmapSize);
-    QStringList convertToBinaryMap(FontPixelMap fontPixelMap);
-    QVector <QVector <char>> convertToBinaryMapArray(FontPixelMap fontPixelMap);
+    FontPixelMap generateSpecificChar(QString c, int x, int y, QFont font, QSize bitmapSize);
+    QStringList convertToBinaryMap(QBitmap fontBitmap);
+    QVector <QVector <char>> convertToBinaryMapArray(QBitmap fontBitmap);
 
 };
 
