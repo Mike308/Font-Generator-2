@@ -30,11 +30,11 @@ QString TFTFontGenerator::prepareCArray(FontPixelMap fontPixelMap)
     return lines.join("\r\n");
 }
 
-QString TFTFontGenerator::prepareCArray(QList<FontPixelMap> fontPixealMaps)
+QString TFTFontGenerator::prepareCArray(QList<FontPixelMap> fontPixelMaps)
 {
     QStringList lines;
     lines.append("<b>int fonts[][] = {</b>");
-    for (FontPixelMap fontPixelMap : fontPixealMaps) {
+    for (FontPixelMap fontPixelMap : fontPixelMaps) {
         prepareCArrayContent(fontPixelMap, lines);
     }
     lines.append("<b>};</b>");

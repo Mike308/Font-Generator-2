@@ -14,11 +14,8 @@ public:
     // FontGenerator interface
 public:
     QString prepareCArray(FontPixelMap fontPixelMap) override;
+    QString prepareCArray(QList<FontPixelMap> fontPixelMaps) override;
 
-
-    // FontGenerator interface
-public:
-    QString prepareCArray(QList<FontPixelMap> fontPixealMaps) override;
 private:
     QStringList prepareCArrayContent(FontPixelMap fontPixelMap, QStringList &lines);
 };
