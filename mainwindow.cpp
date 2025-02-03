@@ -12,14 +12,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fontComboBox->setCurrentText("Arial");
     ui->fontListView->setViewMode(QListView::IconMode);
     ui->fontListView->setIconSize(QSize(80, 80));
-    fontsListModel = new FontsListModel(fonts);
+    fontsListModel = new FontsListModel(fonts, this);
     connect(fontsListModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onFontListModelUpdate(QModelIndex,QModelIndex)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete fontsListModel;
 }
 
 
@@ -95,7 +94,6 @@ void MainWindow::on_generateBtn_clicked()
         FontPixelMap font = generateSpecificChar(ui->charLineEdit->text(), ui->xEdit->text().toInt(), ui->yEdit->text().toInt());
         prepareArray(font);
     } else {
-        // QList<FontPixelMap> fonts;
         for (int i = 32; i < 127; i++) {
             FontPixelMap font = generateSpecificChar(QString(QChar(i)), ui->xEdit->text().toInt(), ui->yEdit->text().toInt());
             fonts.append(font);
