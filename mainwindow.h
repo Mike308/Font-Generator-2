@@ -13,8 +13,11 @@
 #include <fontpixelmap.h>
 #include <string>
 #include <iostream>
-#include "utils.h"
 
+#include <utils.h>
+#include <fontgenerator.h>
+#include <tftfontgenerator.h>
+#include <ledmatrixfontgenerator.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -58,14 +61,10 @@ private:
     Ui::MainWindow *ui;
     QList<FontPixelMap> fonts;
     FontsListModel *fontsListModel;
-    QByteArray convertToByteArray(const QImage &image);
     void displayFontParamters(QRect fontRect, QFontMetrics fontMetrics);
     FontPixelMap generateSpecificChar(QString c, int x, int y);
     void prepareArray(FontPixelMap font);
     void prepareArray(QList<FontPixelMap> fonts);
-    QVector <QVector <char>> preparePreviewArray(QBitmap fontBitmap);
-    QStringList prepareFontTableValues(QBitmap fontBitmap);
     void refreshUI(const QModelIndex &index);
-    void prepareLine(int r, QString pattern, FontPixelMap font);
 };
 #endif // MAINWINDOW_H
