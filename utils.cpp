@@ -39,3 +39,15 @@ QStringList Utils::binStringToHexSeparated(QString bin) {
     }
     return hexValues;
 }
+
+QString Utils::prepareTemplate(QString line, QMap<QString, QString> map)
+{
+    QString _line = line;
+    for (const QString &key : map.keys()) {
+        _line.append(_line.replace(key, map.value(key)));
+    }
+    return _line;
+}
+
+
+

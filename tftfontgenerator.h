@@ -18,6 +18,9 @@ public:
 
 private:
     QStringList prepareCArrayContent(FontPixelMap fontPixelMap, QStringList &lines);
+    void prepareTypeDefStruct(QStringList &lines);
+    void prepareTypeDefStructContent(FontPixelMap fontPixelMap, QStringList &lines);
+
 };
 
 #endif // TFTFONTGENERATOR_H

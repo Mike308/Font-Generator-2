@@ -11,6 +11,7 @@ public:
     Utils();
     static QString binStringToHex(QString bin);
     static QStringList binStringToHexSeparated(QString bin);
+    static QString prepareTemplate(QString line, QMap<QString, QString> map);
 };
 
 #endif // UTILS_H
