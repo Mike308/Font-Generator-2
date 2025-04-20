@@ -44,7 +44,6 @@ void FontsListModel::insertRow(int row, FontPixelMap font)
 
 void FontsListModel::updateRow(int row, FontPixelMap font)
 {
-    qDebug() << "Row" << row;
     if (row < 0 || row >= fonts.size()) {
         qDebug() << "Invalid row index:" << row;
         return;

@@ -14,11 +14,11 @@ public:
 
     FontPixelMap(int width, int height, QString character,
                  QVector<QVector<char>> previewArray, QStringList pattern,
-                 QBitmap fontBitmap, QFont font, int x, int y, int ascent, int descent)
+                 QBitmap fontBitmap, QFont font, int x, int y, int ascent, int descent, int space)
         : width(width), height(height), character(std::move(character)),
         previewArray(std::move(previewArray)), pattern(std::move(pattern)),
         fontBitmap(std::move(fontBitmap)),
-        font(std::move(font)), x(std::move(x)), y(std::move(y)), ascent(std::move(ascent)), descent(std::move(descent)) {}
+        font(std::move(font)), x(std::move(x)), y(std::move(y)), ascent(std::move(ascent)), descent(std::move(descent)), space(std::move(space)) {}
 
     int getWidth() const;
 
@@ -38,6 +38,8 @@ public:
     int getY() const;
     int getAscent() const;
     int getDescent() const;
+    int getFontSizeInPixel() const;
+    int getSpace() const;
 
 private:
     int width;
@@ -47,7 +49,7 @@ private:
     QStringList pattern;
     QBitmap fontBitmap;
     QFont font;
-    int x, y, ascent, descent;
+    int x, y, ascent, descent, space;
 
 };
 

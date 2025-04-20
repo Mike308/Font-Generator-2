@@ -24,7 +24,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
 
-        fontpreviewwidget.h fontpreviewwidget.cpp fontpreviewwidget.ui
+
         font.h font.cpp
         fontlistmodel.h fontlistmodel.cpp
         fontslistmodel.h fontslistmodel.cpp
@@ -33,7 +33,23 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         fontgenerator.h fontgenerator.cpp
         ledmatrixfontgenerator.h ledmatrixfontgenerator.cpp
         tftfontgenerator.h tftfontgenerator.cpp
+        application.qrc
+        icons/center.png icons/down.png icons/left.png icons/right.png icons/up.png
 
+    )
+    qt_add_resources(FontGenerator-2-0 "app_icons"
+    PREFIX "/"
+    FILES
+        icons/center.png
+        icons/up.png
+        icons/down.png
+        icons/left.png
+        icons/right.png
+        icons/underline.png
+        icons/bold.png
+        icons/italic.png
+        icons/select_all.png
+        icons/deselect.png
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FontGenerator-2-0 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

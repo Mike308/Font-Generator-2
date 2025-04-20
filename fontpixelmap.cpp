@@ -50,4 +50,14 @@ int FontPixelMap::getDescent() const {
     return descent;
 }
 
+int FontPixelMap::getFontSizeInPixel() const
+{
+    return font.pixelSize();
+}
+
+int FontPixelMap::getSpace() const
+{
+    return space;
+}
+
 

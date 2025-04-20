@@ -17,7 +17,7 @@ FontPixelMap FontGenerator::generateSpecificChar(QString c, int x, int y, QFont 
 
     QVector <QVector <char>> binaryMapArray = FontGenerator::convertToBinaryMapArray(fontBitmap);
     QStringList fontTableValues = FontGenerator::convertToBinaryMap(fontBitmap);
-    FontPixelMap fontPixelMap(fontRectangle.width(), fontRectangle.height(), c, binaryMapArray, fontTableValues, fontBitmap, font, x, y, fontMetrics.ascent(), fontMetrics.descent());
+    FontPixelMap fontPixelMap(fontRectangle.width(), fontRectangle.height(), c, binaryMapArray, fontTableValues, fontBitmap, font, x, y, fontMetrics.ascent(), fontMetrics.descent(), fontMetrics.horizontalAdvance(c.at(0)));
     return fontPixelMap;
 }
 

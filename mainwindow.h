@@ -7,6 +7,7 @@
 #include <QFontMetrics>
 #include <QList>
 #include <QDebug>
+#include <QFileDialog>
 #include <fontlistmodel.h>
 #include <fontslistmodel.h>
 #include <font.h>
@@ -50,8 +51,35 @@ private slots:
     void on_updateSelectedChar_clicked();
     void on_fontSizeSpinBox_valueChanged(int arg1);
 
+    void on_expoortBtn_clicked();
+
+    void on_centerBtn_clicked();
+
+    void on_leftBtn_clicked();
+
+    void on_rightBtn_clicked();
+
+    void on_italicBtn_toggled(bool checked);
+
+    void on_underlineBtn_toggled(bool checked);
+
+    void on_boldBtn_toggled(bool checked);
+
+    void on_printableAsciiRBtn_clicked();
+
+    void on_specificCharacterRBtn_clicked();
+
+    void on_charLineEdit_textChanged(const QString &arg1);
+
+    void on_downBtn_clicked();
+
+    void on_fontListView_customContextMenuRequested(const QPoint &pos);
+
 public slots:
     void onFontListModelUpdate(QModelIndex topLeft, QModelIndex bottomRight);
+    void onInsertedRowToListModel(const QModelIndex &parent, int start, int end);
+    void selectAllFonts();
+    void deselectAllFonts();
 
 signals:
     void positionUpdate(int x, int y);
@@ -66,5 +94,11 @@ private:
     void prepareArray(FontPixelMap font);
     void prepareArray(QList<FontPixelMap> fonts);
     void refreshUI(const QModelIndex &index);
+    void enabledPatternGenerateButton();
+    enum Direction { UP, LEFT, RIGHT, CENTER, DOWN };
+    void moveCharacter(Direction fontModification);
+    bool isItalic = false;
+    bool isBold = false;
+    bool isUnderline = false;
 };
 #endif // MAINWINDOW_H
