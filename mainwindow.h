@@ -8,7 +8,6 @@
 #include <QList>
 #include <QDebug>
 #include <QFileDialog>
-#include <fontlistmodel.h>
 #include <fontslistmodel.h>
 #include <font.h>
 #include <fontpixelmap.h>
@@ -19,6 +18,8 @@
 #include <fontgenerator.h>
 #include <tftfontgenerator.h>
 #include <ledmatrixfontgenerator.h>
+
+#include "codepreview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -80,10 +81,12 @@ public slots:
     void onInsertedRowToListModel(const QModelIndex &parent, int start, int end);
     void selectAllFonts();
     void deselectAllFonts();
+    void deleteAllFonts();
 
 signals:
     void positionUpdate(int x, int y);
     void fontUpdate(QFont font, int x, int y, char c);
+    void renderCode(QString code);
 
 private:
     Ui::MainWindow *ui;
@@ -100,5 +103,7 @@ private:
     bool isItalic = false;
     bool isBold = false;
     bool isUnderline = false;
+    CodePreview *codePreview;
+
 };
 #endif // MAINWINDOW_H

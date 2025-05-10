@@ -40,6 +40,7 @@ public:
     int getDescent() const;
     int getFontSizeInPixel() const;
     int getSpace() const;
+    QString getFontName() const;
 
 private:
     int width;

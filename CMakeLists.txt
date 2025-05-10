@@ -19,14 +19,16 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
+set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/application.qrc")
+
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(FontGenerator-2-0
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-
+        ${app_icon_resource_windows}
 
         font.h font.cpp
-        fontlistmodel.h fontlistmodel.cpp
         fontslistmodel.h fontslistmodel.cpp
         fontpixelmap.h fontpixelmap.cpp
         utils.h utils.cpp
@@ -35,6 +37,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         tftfontgenerator.h tftfontgenerator.cpp
         application.qrc
         icons/center.png icons/down.png icons/left.png icons/right.png icons/up.png
+        syntaxhighlighter.h syntaxhighlighter.cpp
+        codepreview.h codepreview.cpp codepreview.ui
 
     )
     qt_add_resources(FontGenerator-2-0 "app_icons"
@@ -50,7 +54,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         icons/italic.png
         icons/select_all.png
         icons/deselect.png
+        icons/delete_all.png
+        icons/save.png
+        icons/copy.png
+        icons/app_ico.png
+        icons/app_ico.ico
     )
+
+# qt_add_executable(FontGenerator20 main.cpp ${app_icon_resource_windows})
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET FontGenerator-2-0 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)

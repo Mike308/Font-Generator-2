@@ -35,7 +35,7 @@ QStringList FontGenerator::convertToBinaryMap(QBitmap fontBitmap)
     return fontTableValues;
 }
 
-QVector<QVector<char> > FontGenerator::convertToBinaryMapArray(QBitmap fontBitmap)
+QVector<QVector<char>> FontGenerator::convertToBinaryMapArray(QBitmap fontBitmap)
 {
     QVector <QVector <char>> binaryMapVector(fontBitmap.height(), QVector <char> (fontBitmap.width(), ' '));
     QImage fontBitmapImage = fontBitmap.toImage();

@@ -21,6 +21,8 @@ public:
     void insertRow(int row, FontPixelMap font);
     void updateRow(int row, FontPixelMap font);
     QList<FontPixelMap> getAllData();
+    void removeAll();
+
 
 private:
     QList<FontPixelMap> fonts;
