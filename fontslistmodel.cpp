@@ -57,4 +57,11 @@ QList<FontPixelMap> FontsListModel::getAllData()
     return fonts;
 }
 
+void FontsListModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0, fonts.size() - 1);
+    fonts.clear();
+    endRemoveRows();
+}
+
 
