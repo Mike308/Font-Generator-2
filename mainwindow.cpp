@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QIcon>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -20,10 +21,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->generateArrayBtn->setEnabled(false);
     connect(fontsListModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onFontListModelUpdate(QModelIndex,QModelIndex)));
     connect(fontsListModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(onInsertedRowToListModel(QModelIndex,int,int)));
+    codePreview = new CodePreview();
+    connect(this, SIGNAL(renderCode(QString)), codePreview, SLOT(renderCode(QString)));
 }
 
 MainWindow::~MainWindow()
 {
+    delete codePreview;
     delete ui;
 }
 
@@ -38,28 +42,35 @@ void MainWindow::displayFontParamters(QRect fontRect, QFontMetrics fontMetrics)
 
 void MainWindow::prepareArray(FontPixelMap font)
 {
+    QString code;
     bool ok;
     if (!ui->isRescaleCheckBox->isChecked()) {
         TFTFontGenerator generator;
-        ui->plainTextEdit->appendHtml(generator.prepareCArray(font));
+        code = generator.prepareCArray(font);
     } else {
         LedMatrixFontGenerator generator;
-        ui->plainTextEdit->appendHtml(generator.prepareCArray(font));
+        code = generator.prepareCArray(font);
     }
 
     fontsListModel->insertRow(fontsListModel->rowCount(), font);
     ui->fontListView->setModel(fontsListModel);
+    emit renderCode(code);
+    codePreview->show();
 }
 
 void MainWindow::prepareArray(QList<FontPixelMap> fonts)
 {
+
+    QString code;
     if (ui->isRescaleCheckBox->isChecked()) {
         LedMatrixFontGenerator generator;
-        ui->plainTextEdit->appendHtml(generator.prepareCArray(fonts));
+        code = generator.prepareCArray(fonts);
     } else {
         TFTFontGenerator generator;
-        ui->plainTextEdit->appendHtml(generator.prepareCArray(fonts));
+        code = generator.prepareCArray(fonts);
     }
+    emit renderCode(code);
+    codePreview->show();
 
 }
 
@@ -204,6 +215,11 @@ void MainWindow::deselectAllFonts()
     ui->fontListView->clearSelection();
 }
 
+void MainWindow::deleteAllFonts()
+{
+    fontsListModel->removeAll();
+}
+
 
 void MainWindow::on_updateSelectedChar_clicked()
 {
@@ -301,6 +317,7 @@ void MainWindow::on_fontListView_customContextMenuRequested(const QPoint &pos)
 {
     QIcon selectAllIcon(":/icons/select_all.png");
     QIcon deselectIcon(":/icons/deselect.png");
+    QIcon deleteAllIcon(":/icons/delete_all.png");
     QMenu contextMenu(tr("Context menu"), this);
 
     QAction selectAll(tr("Select all fonts"), this);
@@ -309,10 +326,16 @@ void MainWindow::on_fontListView_customContextMenuRequested(const QPoint &pos)
     QAction deselectAll(tr("Deselect all fonts"), this);
     deselectAll.setIcon(deselectIcon);
 
+    QAction deleteAll(tr("Remove all fonts"), this);
+    deleteAll.setIcon(deleteAllIcon);
+
     connect(&selectAll, SIGNAL(triggered(bool)), SLOT(selectAllFonts()));
     connect(&deselectAll, SIGNAL(triggered(bool)), SLOT(deselectAllFonts()));
+    connect(&deleteAll, SIGNAL(triggered(bool)), SLOT(deleteAllFonts()));
+
     contextMenu.addAction(&selectAll);
     contextMenu.addAction(&deselectAll);
+    contextMenu.addAction(&deleteAll);
     contextMenu.exec(ui->fontListView->mapToGlobal(pos));
 }
 

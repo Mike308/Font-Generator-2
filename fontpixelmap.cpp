@@ -60,4 +60,9 @@ int FontPixelMap::getSpace() const
     return space;
 }
 
+QString FontPixelMap::getFontName() const
+{
+    return font.family().toLower();
+}
+
 
