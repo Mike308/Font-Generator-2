@@ -87,6 +87,7 @@ signals:
     void positionUpdate(int x, int y);
     void fontUpdate(QFont font, int x, int y, char c);
     void renderCode(QString code);
+    void renderCode(QString fontDefinitionCode, QString fontTypeHeader);
 
 private:
     Ui::MainWindow *ui;

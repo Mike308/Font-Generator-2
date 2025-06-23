@@ -22,7 +22,7 @@ QVariant FontsListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
     if (role == Qt::DecorationRole)
-        return QPixmap::fromImage(fonts.at(index.row()).getFontBitmap().toImage().scaled(80, 80));
+        return QPixmap::fromImage(fonts.at(index.row()).getFontBitmap().toImage());
     if (role == Qt::DisplayRole && index.row() < fonts.size())
         return QVariant::fromValue(fonts.at(index.row()).getCharacter());
 

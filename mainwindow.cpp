@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fontsListModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(onInsertedRowToListModel(QModelIndex,int,int)));
     codePreview = new CodePreview();
     connect(this, SIGNAL(renderCode(QString)), codePreview, SLOT(renderCode(QString)));
+    connect(this, SIGNAL(renderCode(QString,QString)), codePreview, SLOT(renderCode(QString,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -65,11 +66,12 @@ void MainWindow::prepareArray(QList<FontPixelMap> fonts)
     if (ui->isRescaleCheckBox->isChecked()) {
         LedMatrixFontGenerator generator;
         code = generator.prepareCArray(fonts);
+        emit renderCode(code);
     } else {
         TFTFontGenerator generator;
         code = generator.prepareCArray(fonts);
+        emit renderCode(code, Utils::prepareTypeDefsStructures());
     }
-    emit renderCode(code);
     codePreview->show();
 
 }
@@ -94,7 +96,12 @@ FontPixelMap MainWindow::generateSpecificChar(QString c, int x, int y)
         generator.generateSpecificCharForLedMatrix(c, x, y, qFont);
     } else {
         TFTFontGenerator generator;
-        font = generator.generateSpecificCharForTFT(c, x, y, qFont, QSize(ui->fontSizeSpinBox->value(), ui->fontSizeSpinBox->value()));
+        QFontMetrics fontMetrics(qFont);
+        qDebug () << "Font metrics: " << fontMetrics.averageCharWidth() << "|" << fontMetrics.horizontalAdvance(c);
+        font = generator.generateSpecificCharForTFT(c, x, y, qFont, QSize(fontMetrics.horizontalAdvance(c, 1), fontMetrics.height()));
+        for (QString line : font.getPattern()) {
+            qDebug () << line;
+        }
     }
 
     QBitmap fontBitmap = font.getFontBitmap();
@@ -109,6 +116,7 @@ void MainWindow::on_generateBtn_clicked()
 {
     if (ui->specificCharacterRBtn->isChecked()) {
         FontPixelMap font = generateSpecificChar(ui->charLineEdit->text(), ui->xEdit->text().toInt(), ui->yEdit->text().toInt());
+        QFontMetrics fontMetrics(font.getFont());
         prepareArray(font);
     } else {
         for (int i = 32; i < 127; i++) {

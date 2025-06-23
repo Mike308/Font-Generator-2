@@ -1,4 +1,5 @@
 #include "fontgenerator.h"
+#include <QDebug>
 
 FontGenerator::FontGenerator() {}
 
@@ -10,6 +11,7 @@ FontPixelMap FontGenerator::generateSpecificChar(QString c, int x, int y, QFont 
 
     QFontMetrics fontMetrics(font, &fontBitmap);
     QRect fontRectangle = fontMetrics.boundingRect(c.at(0));
+    qDebug () << "Font rectangle size: " << fontRectangle.size();
     QPainter painter(&fontBitmap);
     painter.setFont(font);
     painter.drawText(x, y, c);
