@@ -39,7 +39,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         icons/center.png icons/down.png icons/left.png icons/right.png icons/up.png
         syntaxhighlighter.h syntaxhighlighter.cpp
         codepreview.h codepreview.cpp codepreview.ui
-
+        ReadMe.md
+        screenshots/code_preview.png screenshots/main_window.png
     )
     qt_add_resources(FontGenerator-2-0 "app_icons"
     PREFIX "/"
