@@ -34,6 +34,8 @@ public:
 
     int getX() const;
 
+    QFont getFont() const;
+
 
     int getY() const;
     int getAscent() const;

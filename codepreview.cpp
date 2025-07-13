@@ -30,7 +30,47 @@ void CodePreview::renderCode(QString code)
     ui->codePlainText->scroll(0, 0);
 }
 
+void CodePreview::renderCode(QString fontDefinitionCode, QString fontTypeCode)
+{
+    SyntaxHighlighter *fontDefinitionCodeHighlighter = new SyntaxHighlighter(this);
+    SyntaxHighlighter *fontTypeHeaderCodeHighlighter = new SyntaxHighlighter(this);
+    ui->codePlainText->clear();
+    fontDefinitionCodeHighlighter->setDocument(ui->codePlainText->document());
+    ui->codePlainText->appendHtml(fontDefinitionCode);
+    ui->codePlainText->scroll(0, 0);
+    ui->fontTypeHeaderPlainText->clear();
+    fontTypeHeaderCodeHighlighter->setDocument(ui->fontTypeHeaderPlainText->document());
+    ui->fontTypeHeaderPlainText->appendHtml(fontTypeCode);
+    ui->fontTypeHeaderPlainText->scroll(0, 0);
+}
+
 void CodePreview::on_saveBtn_clicked()
+{
+    save(ui->codePlainText->toPlainText());
+}
+
+
+void CodePreview::on_copyBtn_clicked()
+{
+    QClipboard * clipboard = QApplication::clipboard();
+    clipboard->setText(ui->codePlainText->toPlainText(), QClipboard::Clipboard);
+}
+
+
+
+void CodePreview::on_copyBtnFontType_clicked()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(ui->fontTypeHeaderPlainText->toPlainText());
+}
+
+
+void CodePreview::on_saveBtnFontType_clicked()
+{
+    save(ui->fontTypeHeaderPlainText->toPlainText());
+}
+
+void CodePreview::save(const QString content)
 {
     QFileDialog fileDialog(this);
     fileDialog.setNameFilter(tr("Header C File (*.h)"));
@@ -41,17 +81,9 @@ void CodePreview::on_saveBtn_clicked()
 
     if (file.open(QIODevice::WriteOnly)) {
         QTextStream headerFileStream(&file);
-        headerFileStream << ui->codePlainText->toPlainText();
+        headerFileStream << content;
     }
 
     file.close();
 }
-
-
-void CodePreview::on_copyBtn_clicked()
-{
-    QClipboard * clipboard = QApplication::clipboard();
-    clipboard->setText(ui->codePlainText->toPlainText(), QClipboard::Clipboard);
-}
-
 

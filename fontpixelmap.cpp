@@ -1,15 +1,18 @@
 #include "fontpixelmap.h"
+#include <QFontMetrics>
 
 FontPixelMap::FontPixelMap() {}
 
 int FontPixelMap::getWidth() const
 {
-    return width;
+    QFontMetrics fontMetrics(font);
+    return fontMetrics.horizontalAdvance(character);
 }
 
 int FontPixelMap::getHeight() const
 {
-    return height;
+    QFontMetrics fontMetrics(font);
+    return fontMetrics.height();
 }
 
 QString FontPixelMap::getCharacter() const
@@ -35,6 +38,11 @@ QBitmap FontPixelMap::getFontBitmap() const
 int FontPixelMap::getX() const
 {
     return x;
+}
+
+QFont FontPixelMap::getFont() const
+{
+    return font;
 }
 
 int FontPixelMap::getY() const

@@ -54,8 +54,6 @@ private slots:
 
     void on_expoortBtn_clicked();
 
-    void on_centerBtn_clicked();
-
     void on_leftBtn_clicked();
 
     void on_rightBtn_clicked();
@@ -76,6 +74,8 @@ private slots:
 
     void on_fontListView_customContextMenuRequested(const QPoint &pos);
 
+    void on_fontListView_clicked(const QModelIndex &index);
+
 public slots:
     void onFontListModelUpdate(QModelIndex topLeft, QModelIndex bottomRight);
     void onInsertedRowToListModel(const QModelIndex &parent, int start, int end);
@@ -87,6 +87,7 @@ signals:
     void positionUpdate(int x, int y);
     void fontUpdate(QFont font, int x, int y, char c);
     void renderCode(QString code);
+    void renderCode(QString fontDefinitionCode, QString fontTypeHeader);
 
 private:
     Ui::MainWindow *ui;

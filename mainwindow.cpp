@@ -19,10 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
     fontsListModel = new FontsListModel(fonts, this);
     ui->generateBtn->setEnabled(false);
     ui->generateArrayBtn->setEnabled(false);
+    ui->expoortBtn->setDisabled(true);
     connect(fontsListModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onFontListModelUpdate(QModelIndex,QModelIndex)));
     connect(fontsListModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(onInsertedRowToListModel(QModelIndex,int,int)));
     codePreview = new CodePreview();
     connect(this, SIGNAL(renderCode(QString)), codePreview, SLOT(renderCode(QString)));
+    connect(this, SIGNAL(renderCode(QString,QString)), codePreview, SLOT(renderCode(QString,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -65,11 +67,12 @@ void MainWindow::prepareArray(QList<FontPixelMap> fonts)
     if (ui->isRescaleCheckBox->isChecked()) {
         LedMatrixFontGenerator generator;
         code = generator.prepareCArray(fonts);
+        emit renderCode(code);
     } else {
         TFTFontGenerator generator;
         code = generator.prepareCArray(fonts);
+        emit renderCode(code, Utils::prepareTypeDefsStructures());
     }
-    emit renderCode(code);
     codePreview->show();
 
 }
@@ -94,7 +97,8 @@ FontPixelMap MainWindow::generateSpecificChar(QString c, int x, int y)
         generator.generateSpecificCharForLedMatrix(c, x, y, qFont);
     } else {
         TFTFontGenerator generator;
-        font = generator.generateSpecificCharForTFT(c, x, y, qFont, QSize(ui->fontSizeSpinBox->value(), ui->fontSizeSpinBox->value()));
+        QFontMetrics fontMetrics(qFont);
+        font = generator.generateSpecificCharForTFT(c, x, y, qFont, QSize(fontMetrics.horizontalAdvance(c, 1), fontMetrics.height()));
     }
 
     QBitmap fontBitmap = font.getFontBitmap();
@@ -109,6 +113,7 @@ void MainWindow::on_generateBtn_clicked()
 {
     if (ui->specificCharacterRBtn->isChecked()) {
         FontPixelMap font = generateSpecificChar(ui->charLineEdit->text(), ui->xEdit->text().toInt(), ui->yEdit->text().toInt());
+        QFontMetrics fontMetrics(font.getFont());
         prepareArray(font);
     } else {
         for (int i = 32; i < 127; i++) {
@@ -244,18 +249,15 @@ void MainWindow::on_fontSizeSpinBox_valueChanged(int arg1)
 void MainWindow::on_expoortBtn_clicked()
 {
     if (fontsListModel->rowCount() > 0) {
-        QModelIndex modelIndex = ui->fontListView->currentIndex();
-        FontPixelMap font = fontsListModel->getData(modelIndex.row());
-        QFileDialog fileDialog(this);
-        fileDialog.setNameFilter(tr("Images (*.png *.xpm *.jpg)"));
-        font.getFontBitmap().toImage().save(fileDialog.getSaveFileName(this, "Export font as bmp", NULL, tr("*.bmp")));
+        QItemSelectionModel *selectionModel = ui->fontListView->selectionModel();
+        QModelIndexList selectedRows = selectionModel->selectedIndexes();
+        for (const QModelIndex &index : selectedRows) {
+            FontPixelMap font = fontsListModel->getData(index.row());
+            QFileDialog fileDialog(this);
+            fileDialog.setNameFilter(tr("Images (*.png *.xpm *.jpg)"));
+            font.getFontBitmap().toImage().save(fileDialog.getSaveFileName(this, "Export font as bmb", NULL, tr("*.bmp")));
+        }
     }
-}
-
-
-void MainWindow::on_centerBtn_clicked()
-{
-    moveCharacter(CENTER);
 }
 
 
@@ -337,5 +339,16 @@ void MainWindow::on_fontListView_customContextMenuRequested(const QPoint &pos)
     contextMenu.addAction(&deselectAll);
     contextMenu.addAction(&deleteAll);
     contextMenu.exec(ui->fontListView->mapToGlobal(pos));
+}
+
+
+void MainWindow::on_fontListView_clicked(const QModelIndex &index)
+{
+    if (fontsListModel->rowCount() > 0) {
+        QItemSelectionModel *selectionModel = ui->fontListView->selectionModel();
+        if (selectionModel->selectedIndexes().size() > 0)
+            ui->expoortBtn->setEnabled(true);
+        else ui->expoortBtn->setDisabled(true);
+    }
 }
 

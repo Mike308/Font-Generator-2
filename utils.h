@@ -12,6 +12,9 @@ public:
     static QString binStringToHex(QString bin);
     static QStringList binStringToHexSeparated(QString bin);
     static QString prepareTemplate(QString line, QMap<QString, QString> map);
+    static QString prepareTypeDefsStructures();
+    static int getFontWidth(QString bin);
+
 };
 
 #endif // UTILS_H
