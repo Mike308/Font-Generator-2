@@ -9,7 +9,7 @@ QString Utils::binStringToHex(QString bin)
 
 
     while ((_bin.length() % 4)) {
-        _bin.prepend('0');
+        _bin.append('0');
     }
 
 
@@ -28,7 +28,7 @@ QStringList Utils::binStringToHexSeparated(QString bin) {
     QString _bin = bin;
 
     while ((_bin.length() % 8)) {
-        _bin.prepend('0');
+        _bin.append('0');
     }
 
     for (int i = 0; i < (_bin.length() / 8); i++) {
@@ -54,15 +54,16 @@ QString Utils::prepareTypeDefsStructures()
 {
     const QString header = "#include &lt;cinttypes&gt;";
     const QString fontSpecStructure = "<b>typedef struct </b> {\n"
-                                      "    uint8_t space;\n"
-                                      "    uint8_t height;\n"
-                                      "    uint8_t width;\n"
+                                      "    uint8_t width_in_pixel;\n"
+                                      "    uint8_t width_in_bits;\n"
+                                      "    uint8_t ascent;\n"
+                                      "    uint8_t descent;\n"
                                       "} <b>t_font_spec</b>;<br>";
+
     const QString fontDefStructure = "typedef struct {\n"
                                      "   const uint8_t *font_array;\n"
                                      "   const t_font_spec *font_spec_array"
                                      "   uint8_t height;\n"
-                                     "   uint8_t width;\n"
                                      "} t_font_def;";
     QStringList lines;
     lines.append(header);

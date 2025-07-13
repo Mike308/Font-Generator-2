@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     fontsListModel = new FontsListModel(fonts, this);
     ui->generateBtn->setEnabled(false);
     ui->generateArrayBtn->setEnabled(false);
+    ui->expoortBtn->setDisabled(true);
     connect(fontsListModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(onFontListModelUpdate(QModelIndex,QModelIndex)));
     connect(fontsListModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(onInsertedRowToListModel(QModelIndex,int,int)));
     codePreview = new CodePreview();
@@ -97,11 +98,7 @@ FontPixelMap MainWindow::generateSpecificChar(QString c, int x, int y)
     } else {
         TFTFontGenerator generator;
         QFontMetrics fontMetrics(qFont);
-        qDebug () << "Font metrics: " << fontMetrics.averageCharWidth() << "|" << fontMetrics.horizontalAdvance(c);
         font = generator.generateSpecificCharForTFT(c, x, y, qFont, QSize(fontMetrics.horizontalAdvance(c, 1), fontMetrics.height()));
-        for (QString line : font.getPattern()) {
-            qDebug () << line;
-        }
     }
 
     QBitmap fontBitmap = font.getFontBitmap();
@@ -252,18 +249,15 @@ void MainWindow::on_fontSizeSpinBox_valueChanged(int arg1)
 void MainWindow::on_expoortBtn_clicked()
 {
     if (fontsListModel->rowCount() > 0) {
-        QModelIndex modelIndex = ui->fontListView->currentIndex();
-        FontPixelMap font = fontsListModel->getData(modelIndex.row());
-        QFileDialog fileDialog(this);
-        fileDialog.setNameFilter(tr("Images (*.png *.xpm *.jpg)"));
-        font.getFontBitmap().toImage().save(fileDialog.getSaveFileName(this, "Export font as bmp", NULL, tr("*.bmp")));
+        QItemSelectionModel *selectionModel = ui->fontListView->selectionModel();
+        QModelIndexList selectedRows = selectionModel->selectedIndexes();
+        for (const QModelIndex &index : selectedRows) {
+            FontPixelMap font = fontsListModel->getData(index.row());
+            QFileDialog fileDialog(this);
+            fileDialog.setNameFilter(tr("Images (*.png *.xpm *.jpg)"));
+            font.getFontBitmap().toImage().save(fileDialog.getSaveFileName(this, "Export font as bmb", NULL, tr("*.bmp")));
+        }
     }
-}
-
-
-void MainWindow::on_centerBtn_clicked()
-{
-    moveCharacter(CENTER);
 }
 
 
@@ -345,5 +339,16 @@ void MainWindow::on_fontListView_customContextMenuRequested(const QPoint &pos)
     contextMenu.addAction(&deselectAll);
     contextMenu.addAction(&deleteAll);
     contextMenu.exec(ui->fontListView->mapToGlobal(pos));
+}
+
+
+void MainWindow::on_fontListView_clicked(const QModelIndex &index)
+{
+    if (fontsListModel->rowCount() > 0) {
+        QItemSelectionModel *selectionModel = ui->fontListView->selectionModel();
+        if (selectionModel->selectedIndexes().size() > 0)
+            ui->expoortBtn->setEnabled(true);
+        else ui->expoortBtn->setDisabled(true);
+    }
 }
 

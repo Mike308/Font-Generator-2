@@ -54,8 +54,6 @@ private slots:
 
     void on_expoortBtn_clicked();
 
-    void on_centerBtn_clicked();
-
     void on_leftBtn_clicked();
 
     void on_rightBtn_clicked();
@@ -75,6 +73,8 @@ private slots:
     void on_downBtn_clicked();
 
     void on_fontListView_customContextMenuRequested(const QPoint &pos);
+
+    void on_fontListView_clicked(const QModelIndex &index);
 
 public slots:
     void onFontListModelUpdate(QModelIndex topLeft, QModelIndex bottomRight);
